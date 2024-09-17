@@ -1,0 +1,42 @@
+<!-- Modify it at your will. -->
+<!-- Modify it at your will. -->
+
+<group name="kunai,linux,sysmon">
+
+<rule id="100351" level="3">
+   <decoded_as>json</decoded_as>
+   <field name="message.info.event.source">kunai</field>
+   <description>LinuxSysMon Logs.</description>
+</rule>
+<rule id="100352" level="4">
+   <if_sid>100351</if_sid>
+   <field name="message.info.event.name">execve</field>
+    <description>Sysmon - Event 1: Process creation $(message.data.exe.file)</description>
+        <group>linuxsysmon_event1</group>
+        <mitre>
+         <id>T1204</id>
+        </mitre>
+        <options>no_full_log</options>
+</rule>
+<rule id="100353" level="4">
+   <if_sid>100351</if_sid>
+   <field name="message.info.event.name">connect</field>
+   <description>Sysmon - Event 3: Network connection by $(message.data.exe.file)</description>
+   <group>linuxsysmon_event3</group>
+        <mitre>
+         <id>T1204</id>
+        </mitre>
+        <options>no_full_log</options>
+</rule>
+<rule id="100354" level="4">
+   <if_sid>100351</if_sid>
+   <field name="message.info.event.name">dns_query</field>
+   <description>Sysmon - Event 22: DNS Query by $(message.data.exe.file)</description>
+   <group>linuxsysmon_event22</group>
+        <mitre>
+         <id>T1204</id>
+        </mitre>
+        <options>no_full_log</options>
+</rule>
+
+</group>
