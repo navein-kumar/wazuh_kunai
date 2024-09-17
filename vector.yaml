@@ -1,0 +1,22 @@
+sources:
+  apilogs:
+    type: "file"
+    oldest_first: true
+    read_from: beginning
+    include:
+      - "/var/log/sysmon/sysmon.json"
+transforms:
+  remap_syslog:
+    inputs: ["apilogs"]
+    type: "remap"
+    source: |
+      .message  = parse_json!(.message)
+sinks:
+
+  my_sink_id:
+    type: file
+    inputs:
+     - "remap_syslog"
+    path: /var/log/sysmon/vector.json
+    encoding:
+       codec: "json"
